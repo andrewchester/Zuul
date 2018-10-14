@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Room.h"
+#include "room.h"
 
 //Constructor
 Room::Room(const char* name, int* x, int* y) {
@@ -35,7 +35,7 @@ int* Room::getX(){
 int* Room::getY(){
   return this->y;
 }
-std::vector<char*>* Room::getItems(){ //Maybe return a pointer here instead?
+std::vector<char*>* Room::getItems(){
   return &items;
 }
 char* Room::getName(){
@@ -47,12 +47,14 @@ void Room::addItem(const char* item){ //Takes a string literal so you can room.a
   this->items.push_back(const_cast<char*>(item));
 }
 //Takes a string literal, searches the item vector for the passed string, removes it, then exits the loop
-void Room::removeItem(const char* item){
+void Room::removeItem(const char* item, bool deleting){
   std::vector<char*>::iterator it;
   for (it = this->items.begin(); it != this->items.end(); ++it){
     if (strcmp(*it, item) == 0){
+      if(deleting)
+        delete *it;
       it = this->items.erase(it); //Make sure it isn't invalid
-      break;
+      return; 
     }
   }
 }
@@ -61,6 +63,16 @@ bool Room::hasItem(const char* item){
   std::vector<char*>::iterator it;
   for (it = this->items.begin(); it != this->items.end(); ++it){
     if (strcmp(*it, const_cast<char*>(item)) == 0){ //Iterate over items, if we find it, return true
+      return true; //Efficiency of the search doesn't matter, there won't be more than 10 items in a room
+    }
+  }
+  return false;
+}
+//Tests if a room has an item, which is a pointer passed to the function
+bool Room::hasItem(char* item){
+  std::vector<char*>::iterator it;
+  for (it = this->items.begin(); it != this->items.end(); ++it){
+    if (strcmp(*it, item) == 0){ //Iterate over items, if we find it, return true
       return true; //Efficiency of the search doesn't matter, there won't be more than 10 items in a room
     }
   }

@@ -1,19 +1,23 @@
+#ifndef ROOM_H //Header guard for room
+#define ROOM_H
+
 #include <vector>
 #include <stdio.h>
 #include <ctype.h>
-#include <cstring>
+#include <cstring> 
 
+//A class for the rooms in the game, holds its x, y position, name, and the items it contains
 class Room  {
-
   private:
     int* x;
     int* y;
     char* name;
-    std::vector<char*> items;
+    std::vector<char*> items; 
 
   public:
-    Room(const char* name, int* x, int* y);
-    ~Room();
+    //Constructor takes a string literal and two int pointers
+    Room(const char* name, int* x, int* y); 
+    ~Room(); //In the destructor all the memory for the rooms name, x, y and values inside items is 
 
     //Getters
     int* getX();
@@ -28,9 +32,11 @@ class Room  {
 
     //Functions for managing items
     void addItem(const char* item);
-    void removeItem(const char* item);
+    void removeItem(const char* item, bool deleting);
     bool hasItem(const char* item);
+    bool hasItem(char* item);
 
     //A function to print out all items in the room
     void printItems();
 };
+#endif

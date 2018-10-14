@@ -1,8 +1,13 @@
+/*
+* Andrew Chester, Per. 2 Zuul
+* Zuul is a text based console game that allows you to explore rooms and pickup items
+*/
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <string.h>
-#include "Room.h"
+#include "room.h"
+#include "player.h"
 
 //parseFromFile() reads in data from a txt file and generates rooms from it
 //It takes the vector to add the rooms to, and the path from which to get the room data
@@ -59,17 +64,21 @@ void parseFromFile(std::vector<Room*>* rooms, const char* path){
 }
 
 int main(){
-  std::vector<Room*> rooms; //Vector of room
+  std::vector<Room*> rooms; //Vector to hold all the rooms in the game
+  parseFromFile(&rooms, "rooms.txt"); //Parse rooms.txt and add all the rooms into rooms, more information in the comments surrounding parseFromFile()
+  
+  Player p = Player(rooms.at(0));
+  std::cout << "Player is in: " << p.getCurrentRoom()->getName() << std::endl;
+  
+  std::cout << "Items in " << p.getCurrentRoom()->getName() << ": "; 
+  p.getCurrentRoom()->printItems();
+  std::cout << std::endl;
+  
+  p.pickup("rug");
 
-  //Code to test parseFromFile()
-  parseFromFile(&rooms, "rooms.txt");
-  std::vector<Room*>::iterator it;
-  for(it = rooms.begin(); it != rooms.end(); ++it){
-    std::cout << (*it)->getName() << ":" << std::endl;
-    std::cout << "\tPosition: " << *(*it)->getX() << ", " << *(*it)->getY() << std::endl;
-    std::cout << "\tItems:"; 
-    (*it)->printItems();
-    std::cout << std::endl;
-  }
+  std::cout << "Items in " << p.getCurrentRoom()->getName() << ": "; 
+  p.getCurrentRoom()->printItems();
+  std::cout << std::endl;
+
   return 0;
 }
