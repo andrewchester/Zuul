@@ -6,19 +6,18 @@
 class Room  {
 
   private:
-    int  x, y;
-    std::vector<char*> items;
+    int* x;
+    int* y;
     char* name;
+    std::vector<char*> items;
 
   public:
-    //Constructors use string literals so you can just initialize a room with Room("name here") or pass json
-    Room(const char* data);
-    Room(const char* name, int x, int y);
+    Room(const char* name, int* x, int* y);
     ~Room();
 
     //Getters
-    int getX();
-    int getY();
+    int* getX();
+    int* getY();
     std::vector<char*>* getItems();
     char* getName();
 
