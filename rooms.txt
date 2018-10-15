@@ -1,2 +1,0 @@
-Hall,0,0,rug,cabinet,/
-TestRoom,0,1,key,wallet,id,/
