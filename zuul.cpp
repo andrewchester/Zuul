@@ -4,14 +4,26 @@
 */
 #include <iostream>
 #include <map>
-#include <limits>
 
 #include "parser.h"
+#include "room.h"
+#include "player.h"
+#include "item.h"
+
+void iniRooms(std::map<const char*, Room>* rooms){
+  //Initialize rooms here
+}
 
 int main(){
+  std::map<const char*, Room> rooms;
+  
   Parser parser;
+  Player p;
+  
   char command[30] = "help";
   bool playing = true;
+
+  iniRooms(&rooms);
 
   while(playing){
     //Print the current location, description, etc

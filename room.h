@@ -4,25 +4,30 @@
 #include <vector>
 #include "item.h"
 
+class Item; //Declare item without initializing it so the compiler won't throw errors when it's used later
+
 class Room{
     private:
         char* name;
         char* description;
-        int* x;
-        int* y;
         std::vector<Item*> items;
 
     public:
+        //Pointers to connected rooms, by default null
+        //Public so I don't have to write getters and setters for all of them
+        Room* NORTH;
+        Room* EAST;
+        Room* SOUTH;
+        Room* WEST;
+
         //Constructors and Destructor
-        Room(const char* name, const char* description, int x, int y);
-        Room(char* name, char* description, int x, int y);
+        Room(const char* name, const char* description);
+        Room(char* name, char* description);
         ~Room();
 
         //Getters
         char* getName();
         char* getDescription();
-        int* getX();
-        int* getY();
         std::vector<Item*>* getItems();
 
         //Setters
@@ -30,8 +35,6 @@ class Room{
         void setName(char* name);
         void setDescription(const char* description);
         void setDescription(char* description);
-        void setX(int x);
-        void setY(int y);
 
         //Functions for managing items
         void addItem(const char* item);

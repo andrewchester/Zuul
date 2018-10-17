@@ -3,35 +3,33 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //Constructor using string literals
-Room::Room(const char* name, const char* description, int x, int y){
+Room::Room(const char* name, const char* description){
     //Allocate memory for variables
     this->name = new char[strlen(name)];
     this->description = new char[strlen(description)];
-    this->x = new int;
-    this->y = new int;
 
     //Copy data to variables
     strcpy(this->name, name);
     strcpy(this->description, description);
-    *this->x = x;
-    *this->y = y;
+
+    //Set the connected rooms pointers to null
+    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
 //Constructor using char*, virtually the same as using const char*
-Room::Room(char* name, char* description, int x, int y){
+Room::Room(char* name, char* description){
     //Allocate memory for variables
     this->name = new char[strlen(name)];
     this->description = new char[strlen(description)];
-    this->x = new int;
-    this->y = new int;
 
     //Copy data to variables
     strcpy(this->name, name);
     strcpy(this->description, description);
-    *this->x = x;
-    *this->y = y;
+
+    //Set the connected rooms pointers to null
+    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
 Room::~Room(){
-    delete name, description, x, y; //Delete variables from constructor
+    delete name, description; //Delete variables from constructor
 
     //Delete all the items in items
     std::vector<Item*>::iterator item; 
@@ -41,8 +39,6 @@ Room::~Room(){
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////
 //Getters
 char* Room::getName(){
     return this->name;
@@ -50,17 +46,9 @@ char* Room::getName(){
 char* Room::getDescription(){
     return this->description;
 }
-int* Room::getX(){
-    return this->x;
-}
-int* Room::getY(){
-    return this->y;
-}
 std::vector<Item*>* Room::getItems(){
     return &this->items;
 }
-////////////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////////////
 //Setters
 void Room::setName(const char* name){
@@ -75,14 +63,6 @@ void Room::setDescription(const char* description){
 void Room::setDescription(char* description){
     strcpy(this->description, description);
 }
-void Room::setX(int x){
-    *this->x = x;
-}
-void Room::setY(int y){
-    *this->y = y;
-}
-////////////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////////////
 //Functions for managing items
 
