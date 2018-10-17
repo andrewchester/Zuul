@@ -1,0 +1,5 @@
+middle>north,east,south,west,/
+north>0,0,middle,0,/
+east>0,0,0,middle,/
+west>0,middle,0,0,/
+south>middle,0,0,0,/

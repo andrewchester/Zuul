@@ -2,6 +2,7 @@
 #define ROOM_H
 
 #include <vector>
+#include <map>
 #include "player.h"
 #include "item.h"
 
@@ -14,15 +15,9 @@ class Room{
         char* name;
         char* description;
         std::vector<Item*> items;
+        std::map<const char*, Room*> exits;
 
     public:
-        //Pointers to connected rooms, by default null
-        //Public so I don't have to write getters and setters for all of them
-        Room* NORTH;
-        Room* EAST;
-        Room* SOUTH;
-        Room* WEST;
-
         //Constructors and Destructor
         Room(const char* name, const char* description);
         Room(char* name, char* description);
@@ -33,6 +28,7 @@ class Room{
         char* getName();
         char* getDescription();
         std::vector<Item*>* getItems();
+        std::map<const char*, Room*>* getExits();
 
         //Setters
         void setName(const char* name);
@@ -53,7 +49,8 @@ class Room{
         bool hasItem(char* item);
         bool hasItem(Item* item);
 
-        //To print out its items, doesn't use std::endl, so it can be inserted into a string
+        //Printing out useful information
         void printItems();
+        void printConnections(bool printNames);
 };
 #endif

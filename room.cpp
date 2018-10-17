@@ -11,9 +11,6 @@ Room::Room(const char* name, const char* description){
     //Copy data to variables
     strcpy(this->name, name);
     strcpy(this->description, description);
-
-    //Set the connected rooms pointers to null
-    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
 //Constructor using char*, virtually the same as using const char*
 Room::Room(char* name, char* description){
@@ -24,16 +21,11 @@ Room::Room(char* name, char* description){
     //Copy data to variables
     strcpy(this->name, name);
     strcpy(this->description, description);
-
-    //Set the connected rooms pointers to null
-    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
 //Constructor without parameters, just sets the values to basically nothing
 Room::Room(){
     this->name = 0;
     this->description = 0;
-
-    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
 Room::~Room(){
     delete name, description; //Delete variables from constructor
@@ -55,6 +47,10 @@ char* Room::getDescription(){
 std::vector<Item*>* Room::getItems(){
     return &this->items;
 }
+std::map<const char*, Room*>* Room::getExits(){
+    return &this->exits;
+}
+
 //Setters
 void Room::setName(const char* name){
     strcpy(this->name, name);
@@ -136,4 +132,13 @@ void Room::printItems(){
     std::vector<Item*>::iterator it;
     for(it = this->items.begin(); it != this->items.end(); ++it)
         std::cout << (*it)->getName() << " ";
+}
+void Room::printConnections(bool printNames){
+    std::map<const char*, Room*>::const_iterator it;
+    for(it = this->exits.begin(); it != this->exits.end(); ++it){
+        if(it->second != 0){
+            if(printNames) std::cout << it->second->getName() << " ";
+            else std::cout << it->first << " ";
+        }
+    }
 }

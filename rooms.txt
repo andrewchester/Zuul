@@ -1,2 +1,5 @@
-name,|room,description,here|item1,item2,/
-testroom,|this,is,a,test,room|test1,test2,/
+south,|southern,room|item1,item2,/
+middle,|middle,room|test1,test2,/
+north,|northern,room|item,/
+east,|eastern,room|item1,item2,/
+west,|western,room|test1,test2,test3,/
