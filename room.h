@@ -2,9 +2,12 @@
 #define ROOM_H
 
 #include <vector>
+#include "player.h"
 #include "item.h"
 
-class Item; //Declare item without initializing it so the compiler won't throw errors when it's used later
+//Telling the compiler that these classes exist, seems like a really bad idea, but I'm not getting any errors
+class Player;
+class Item;
 
 class Room{
     private:
@@ -23,6 +26,7 @@ class Room{
         //Constructors and Destructor
         Room(const char* name, const char* description);
         Room(char* name, char* description);
+        Room();
         ~Room();
 
         //Getters
@@ -48,5 +52,8 @@ class Room{
         bool hasItem(const char* item);
         bool hasItem(char* item);
         bool hasItem(Item* item);
+
+        //To print out its items, doesn't use std::endl, so it can be inserted into a string
+        void printItems();
 };
 #endif

@@ -1,10 +1,12 @@
 #ifndef ITEM_H
 #define ITEM_H
+
 #include "room.h"
 #include "player.h"
 
-class Room; //Declare Room without initializing it, we can avoid the chicken-egg problem of room and item including each other this way
-class Player; //Same as room
+//Telling the compiler that these classes exist, seems like a really bad idea, but I'm not getting any errors
+class Room;
+class Player;
 
 class Item{
     private:

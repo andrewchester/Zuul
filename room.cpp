@@ -1,7 +1,7 @@
+#include <iostream>
 #include <string.h>
 #include "room.h"
 
-////////////////////////////////////////////////////////////////////////////////
 //Constructor using string literals
 Room::Room(const char* name, const char* description){
     //Allocate memory for variables
@@ -28,6 +28,13 @@ Room::Room(char* name, char* description){
     //Set the connected rooms pointers to null
     this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
 }
+//Constructor without parameters, just sets the values to basically nothing
+Room::Room(){
+    this->name = 0;
+    this->description = 0;
+
+    this->NORTH = 0, this->EAST = 0, this->SOUTH = 0, this->WEST = 0;
+}
 Room::~Room(){
     delete name, description; //Delete variables from constructor
 
@@ -38,7 +45,6 @@ Room::~Room(){
         item = this->items.erase(item);
     }
 }
-////////////////////////////////////////////////////////////////////////////////
 //Getters
 char* Room::getName(){
     return this->name;
@@ -49,7 +55,6 @@ char* Room::getDescription(){
 std::vector<Item*>* Room::getItems(){
     return &this->items;
 }
-////////////////////////////////////////////////////////////////////////////////
 //Setters
 void Room::setName(const char* name){
     strcpy(this->name, name);
@@ -63,7 +68,6 @@ void Room::setDescription(const char* description){
 void Room::setDescription(char* description){
     strcpy(this->description, description);
 }
-////////////////////////////////////////////////////////////////////////////////
 //Functions for managing items
 
 //Adds item(s) to the vector items. Duplicates the item when you add it so if items are being moved between rooms or between the room and player, delete the original item pointer
@@ -128,5 +132,8 @@ bool Room::hasItem(Item* item){
             return true;
     return false;
 }
-
-////////////////////////////////////////////////////////////////////////////////
+void Room::printItems(){
+    std::vector<Item*>::iterator it;
+    for(it = this->items.begin(); it != this->items.end(); ++it)
+        std::cout << (*it)->getName() << " ";
+}

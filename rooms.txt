@@ -1,0 +1,2 @@
+name,|room,description,here|item1,item2,/
+testroom,|this,is,a,test,room|test1,test2,/

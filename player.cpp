@@ -5,9 +5,10 @@
 /*
 *   A class for the player, essentially a mobile room with an item limit
 */
-
-////////////////////////////////////////////////////////////////////////////////
 //Constructor with a default null value for room
+Player::Player(){
+    this->current = 0;
+}
 Player::Player(Room* room = 0){
     this->current = room;
 }
@@ -27,9 +28,8 @@ void Player::setCurrentRoom(Room* room){
 void Player::setItemLimit(int itemLimit){
     this->itemLimit = itemLimit;
 }
-////////////////////////////////////////////////////////////////////////////////
-//Functions for managing items
 
+//Functions for managing items
 //Adds item(s) to the vector items. Duplicates the item when you add it so if items are being moved between rooms or between the room and player, delete the original item pointer
 void Player::addItem(const char* item){
     Item* itemPointer = new Item(item, this);
@@ -92,4 +92,3 @@ bool Player::hasItem(Item* item){
             return true;
     return false;
 }
-////////////////////////////////////////////////////////////////////////////////

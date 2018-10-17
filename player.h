@@ -1,10 +1,13 @@
-#ifndef ROOM_H
-#define ROOM_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <vector>
 #include "item.h"
+#include "room.h"
 
-class Item; //So item is defined in player's implementation(player.cpp)
+//Telling the compiler that these classes exist, seems like a really bad idea, but I'm not getting any errors
+class Room;
+class Item;
 
 class Player{
     private:
@@ -13,6 +16,7 @@ class Player{
         int itemLimit;
     
     public:
+        Player();
         Player(Room* current);
         
         //Getters
