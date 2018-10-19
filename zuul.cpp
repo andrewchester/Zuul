@@ -34,13 +34,17 @@ int main(){
   bool playing = true;
 
   parser.parseFromFile(&rooms, "rooms.txt");
-  std::cout << "Segfault?" << std::endl;
   parser.parseConnectionsFromFile(&rooms, "connections.txt");
 
-  printRoomInformation(&rooms);
-  /*
+  player.setCurrent(rooms[0]);
+  
   while(playing){
     //Print the current location, description, etc
+
+    std::cout << "You're in the " << player.getCurrentRoom()->getName() << std::endl;
+    std::cout << player.getCurrentRoom()->getDescription() << std::endl;
+    std::cout << "\t" << "It has: " << player.getCurrentRoom()->printItems() << std::endl;
+    std::cout << "\t" << "You can go: " << player.getCurrentRoom()->printExits(false) << std::endl;
     
     //Get input
     while(!parser.isValid(command)){
@@ -55,6 +59,5 @@ int main(){
     playing = parser.parseCommand(command);
     command[0] = '/';  //Change the first character of command so that parser.isValid won't recognize it
   }
-  */
   return 0;
 }
