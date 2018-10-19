@@ -57,13 +57,13 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
   std::ifstream file(path); //Initializing file from the path variable passed in
   char c; //This holds the current character, when iterating over the file, it goes character by characetr(the other method that went line by line used std::string, which we're not allowed to use) 
   std::vector<char*> values; //This holds the spliced strings, which are the ones in between the commas
-  char current[50];//This holds the current string, it will gradually fill up with characters until it reaches a comma
+  char current[75];//This holds the current string, it will gradually fill up with characters until it reaches a comma
   for(int i = 0; i < sizeof(current); i++) current[i] = 0; //Fill the string with zeros
   int pos = 0; //Holds the current pos in the string, used to know where to add the character from the file
   bool copyingString = false;
   while(file >> c){ //Loop over each character in file
     if(c == ',' && !copyingString){ //The end of a variable is reached, indicated by a comma
-      char* copy = new char[30]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
+      char* copy = new char[75]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
       strcpy(copy, current); //Copying current
       values.push_back(copy); //Add whatever is in current(using copy) to values, should just be all the characters added since the last space or the start of the line
       pos = 0; //Reset the position so we begin writing to current at the start of the array
@@ -84,14 +84,18 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
         newRoom->addItem(itemPointer); //Add the item
       }
       rooms->push_back(newRoom); //Add the new room just created to rooms
-      for (std::vector<char*>::iterator it = values.begin(); it != values.end(); ++it) delete *it; //Delete all the copied pointers from before
-      values.clear(); //Empty the vector
+      //Segfault here:
+      for (std::vector<char*>::iterator it = values.begin(); it != values.end(); ++it){
+          delete *it; //Delete all the copied pointers from before
+          it = values.erase(it);
+      }
+      //values.clear(); //Empty the vector
       pos = 0; //Reset position
       for(int i = 0; i < sizeof(current); i++) current[i] = 0; //Fill current with zeros
     }else if(c == '|'){
       if(copyingString){
         copyingString = false;
-        char* copy = new char[50]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
+        char* copy = new char[75]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
         strcpy(copy, current); //Copying current
         values.push_back(copy); //Add whatever is in current(using copy) to values, should just be all the characters added since the last space or the start of the line
         pos = 0; //Reset the position so we begin writing to current at the start of the array
@@ -124,13 +128,13 @@ void Parser::parseConnectionsFromFile(std::vector<Room*>* rooms, const char* pat
 std::ifstream file(path); //Initializing file from the path variable passed in
   char c; //This holds the current character, when iterating over the file, it goes character by characetr(the other method that went line by line used std::string, which we're not allowed to use) 
   std::vector<char*> values; //This holds the spliced strings, which are the ones in between the commas
-  char current[50];//This holds the current string, it will gradually fill up with characters until it reaches a comma
+  char current[75];//This holds the current string, it will gradually fill up with characters until it reaches a comma
   Room* currentRoom;
   for(int i = 0; i < sizeof(current); i++) current[i] = 0; //Fill the string with zeros
   int pos = 0; //Holds the current pos in the string, used to know where to add the character from the file
   while(file >> c){ //Loop over each character in file
     if(c == ','){ //The end of a variable is reached, indicated by a comma
-      char* copy = new char[30]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
+      char* copy = new char[75]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
       strcpy(copy, current); //Copying current
       values.push_back(copy); //Add whatever is in current(using copy) to values, should just be all the characters added since the last space or the start of the line
       pos = 0; //Reset the position so we begin writing to current at the start of the array

@@ -10,6 +10,20 @@
 #include "player.h"
 #include "item.h"
 
+void printRoomInformation(std::vector<Room*>* rooms){
+  std::vector<Room*>::iterator it;
+  for(it = rooms->begin(); it != rooms->end(); ++it){
+    std::cout << (*it)->getName() << ":" << std::endl;
+    std::cout << "\t" << "Description: " << (*it)->getDescription() << std::endl;
+    std::cout << "\t" << "Items: ";
+    (*it)->printItems();
+    std::cout << std::endl;
+    std::cout << "\t" << "Available connections: ";
+    (*it)->printConnections(false);
+    std::cout << std::endl;
+  }
+}
+
 int main(){
   std::vector<Room*> rooms;
   
@@ -20,19 +34,10 @@ int main(){
   bool playing = true;
 
   parser.parseFromFile(&rooms, "rooms.txt");
+  std::cout << "Segfault?" << std::endl;
   parser.parseConnectionsFromFile(&rooms, "connections.txt");
-  
-  std::vector<Room*>::iterator it;
-  for(it = rooms.begin(); it != rooms.end(); ++it){
-    std::cout << (*it)->getName() << ":" << std::endl;
-    std::cout << "\t" << "Description: " << (*it)->getDescription() << std::endl;
-    std::cout << "\t" << "Items: ";
-    (*it)->printItems();
-    std::cout << std::endl;
-    std::cout << "\t" << "Available connections: ";
-    (*it)->printConnections(false);
-    std::cout << std::endl;
-  }
+
+  printRoomInformation(&rooms);
   /*
   while(playing){
     //Print the current location, description, etc
