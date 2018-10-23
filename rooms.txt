@@ -1,8 +1,8 @@
 hall,|The,hall,is,long,dark,and,empty|rug,key,/
-entrance,|the,entrance,is,broken,down|rock,/
+entrance,|The,entrance,is,broken,down|rock,/
 livingroom,|a,rather,generic,living,room|book,tv,remote,/
 bathroom,|a,suspicious,looking,bathroom|note,toothbrush,toothpaste,/
-secretstairs,|drafty,stairs,leading,down,;,the,door's,locked|torch,/
+secretstairs,|You,found,drafty,stairs,leading,down.,The,door's,locked|torch,/
 secretexit,|you've,found,a,secret,exit!|/
 livingroomstairs,|warm,cozy,and,inviting,stairs,leading,you,upwards|/
 upstairshall,|a,hall,with,several,exits|/

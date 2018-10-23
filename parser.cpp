@@ -84,10 +84,7 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
         newRoom->addItem(itemPointer); //Add the item
       }
       rooms->push_back(newRoom); //Add the new room just created to rooms
-      for (std::vector<char*>::iterator it = values.begin(); it != values.end(); ++it){
-          delete *it; //Delete all the copied pointers from before
-      }
-      values.clear(); //Empty the vector
+      values.clear(); //values.clear() calls the destructor of every object in the vector, so no need to iterate over the vector deleting the pointers
       pos = 0; //Reset position
       for(int i = 0; i < sizeof(current); i++) current[i] = 0; //Fill current with zeros
     }else if(c == '|'){

@@ -36,15 +36,21 @@ int main(){
   parser.parseFromFile(&rooms, "rooms.txt");
   parser.parseConnectionsFromFile(&rooms, "connections.txt");
 
-  player.setCurrent(rooms[0]);
+  player.setCurrentRoom(rooms[0]);
   
+  printRoomInformation(&rooms);
+  /*
   while(playing){
     //Print the current location, description, etc
 
     std::cout << "You're in the " << player.getCurrentRoom()->getName() << std::endl;
     std::cout << player.getCurrentRoom()->getDescription() << std::endl;
-    std::cout << "\t" << "It has: " << player.getCurrentRoom()->printItems() << std::endl;
-    std::cout << "\t" << "You can go: " << player.getCurrentRoom()->printExits(false) << std::endl;
+    std::cout << "\t" << "It has: "; 
+    player.getCurrentRoom()->printItems();
+    std::cout << std::endl;
+    std::cout << "\t" << "You can go: ";
+    player.getCurrentRoom()->printConnections(false);
+    std::cout << std::endl;
     
     //Get input
     while(!parser.isValid(command)){
@@ -58,6 +64,6 @@ int main(){
     //Do something with that input
     playing = parser.parseCommand(command);
     command[0] = '/';  //Change the first character of command so that parser.isValid won't recognize it
-  }
+  }*/
   return 0;
 }
