@@ -2,6 +2,21 @@
 #include <string.h>
 #include <map>
 #include "parser.h"
+#include "player.h"
+
+void Parser::substr(char* str, int begin, int end){
+	std::cout << begin << " " << end << std::endl;
+	std::cout << "Got: " << str << " starting at: " << str[begin] << " ending at: " << str[end] << std::endl;
+	char* substr = new char[end - begin];
+	if (begin > end || begin < 0 || end >= strlen(str))
+		return;
+	int subpos = 0;
+	for (int i = begin; i < end; i++){
+		substr[subpos] = str[i];
+		subpos++;
+	}
+	str = substr;
+}
 
 void Parser::toLower(char* str)
 {
@@ -24,9 +39,11 @@ bool Parser::isValid(char* input){
     if(strncmp(input, "pickup ", 7) == 0) return true;
     return false;
 }
-bool Parser::parseCommand(char* command){
+bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "go ", 3) == 0){
-        return true;
+		
+		
+		return true;
     }
     if(strncmp(command, "drop ", 5) == 0){
         return true;
@@ -63,6 +80,7 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
   bool copyingString = false;
   while(file >> c){ //Loop over each character in file
     if(c == ',' && !copyingString){ //The end of a variable is reached, indicated by a comma
+      std::cout << current << std::endl;
       char* copy = new char[100]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
       strcpy(copy, current); //Copying current
       values.push_back(copy); //Add whatever is in current(using copy) to values, should just be all the characters added since the last space or the start of the line
@@ -86,7 +104,8 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
       rooms->push_back(newRoom); //Add the new room just created to rooms
       values.clear(); //values.clear() calls the destructor of every object in the vector, so no need to iterate over the vector deleting the pointers
       pos = 0; //Reset position
-      for(int i = 0; i < sizeof(current); i++) current[i] = 0; //Fill current with zeros
+      for(int i = 0; i < strlen(current); i++) current[i] = 0; //Fill current with zeros
+      current[0] = '\0';
     }else if(c == '|'){
       if(copyingString){
         copyingString = false;
@@ -101,7 +120,7 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
     }else {
       if(c != 0 && c != ',') //If c isn't a zero, then write it to current
         current[pos] = c;
-      if(copyingString && c == ',')
+      if (c == ',')
         current[pos] = ' ';
       if(pos + 1 < sizeof(current))
         pos++; //Increment position when we write to current

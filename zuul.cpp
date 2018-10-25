@@ -33,12 +33,16 @@ int main(){
   char command[30] = "help";
   bool playing = true;
 
+  parser.substr(command, 2, 3);
+  std::cout << command << std::endl;
+  /*
   parser.parseFromFile(&rooms, "rooms.txt");
   parser.parseConnectionsFromFile(&rooms, "connections.txt");
 
   player.setCurrentRoom(rooms[0]);
   
   printRoomInformation(&rooms);
+  */
   /*
   while(playing){
     //Print the current location, description, etc
