@@ -5,8 +5,6 @@
 #include "player.h"
 
 void Parser::substr(char* str, int begin, int end){
-	std::cout << begin << " " << end << std::endl;
-	std::cout << "Got: " << str << " starting at: " << str[begin] << " ending at: " << str[end] << std::endl;
 	char* substr = new char[end - begin];
 	if (begin > end || begin < 0 || end >= strlen(str))
 		return;
@@ -41,9 +39,15 @@ bool Parser::isValid(char* input){
 }
 bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "go ", 3) == 0){
-		
-		
-		return true;
+      char* direction;
+      strcpy(direction, command);
+      substr(direction, 4, strlen(command));	
+
+      if(player->getCurrentRoom()->has(direction))
+	player->setCurrentRoom(player->getCurrentRoom()->get(direction));
+      else
+	std::cout << "Not a valid direction" << std::endl;
+      return true;
     }
     if(strncmp(command, "drop ", 5) == 0){
         return true;

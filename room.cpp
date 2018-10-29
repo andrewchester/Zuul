@@ -142,3 +142,12 @@ void Room::printConnections(bool printNames){
         }
     }
 }
+bool Room::has(char* key){
+  if(this->exits[key] != 0)
+    return true;
+  return false;
+}
+Room* Room::get(char* key){
+  if(has(key)) return this->exits[key];
+  else return this;
+}

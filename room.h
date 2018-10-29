@@ -52,5 +52,8 @@ class Room{
         //Printing out useful information
         void printItems();
         void printConnections(bool printNames);
+
+	bool has(char* key);
+	Room* get(char* key);
 };
 #endif
