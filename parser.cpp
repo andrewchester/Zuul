@@ -43,10 +43,12 @@ bool Parser::parseCommand(char* command, Player* player){
       strcpy(direction, command);
       substr(direction, 4, strlen(command));	
 
+	  std::cout << "Going: " << direction << std::endl;
+	  
       if(player->getCurrentRoom()->has(direction))
-	player->setCurrentRoom(player->getCurrentRoom()->get(direction));
+		player->setCurrentRoom(player->getCurrentRoom()->get(direction));
       else
-	std::cout << "Not a valid direction" << std::endl;
+		std::cout << "Not a valid direction" << std::endl;
       return true;
     }
     if(strncmp(command, "drop ", 5) == 0){
@@ -84,7 +86,6 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
   bool copyingString = false;
   while(file >> c){ //Loop over each character in file
     if(c == ',' && !copyingString){ //The end of a variable is reached, indicated by a comma
-      std::cout << current << std::endl;
       char* copy = new char[100]; //Create a copy of current cause we can't pass be passing a pointer to the same character array all the time, later we'll free the memory associated with the copy
       strcpy(copy, current); //Copying current
       values.push_back(copy); //Add whatever is in current(using copy) to values, should just be all the characters added since the last space or the start of the line

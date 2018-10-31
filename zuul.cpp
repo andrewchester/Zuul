@@ -36,24 +36,14 @@ int main(){
   parser.parseFromFile(&rooms, "rooms.txt");
   parser.parseConnectionsFromFile(&rooms, "connections.txt");
   player.setCurrentRoom(rooms[0]);
-  bool test = parser.parseCommand(command, &player);
-  std::cout << test << " " << player->getCurrentRoom()->getName() << std::endl;
-  /*
-  while(playing){
-    //Print the current location, description, etc
 
-    std::cout << "You're in the " << player.getCurrentRoom()->getName() << std::endl;
-    std::cout << player.getCurrentRoom()->getDescription() << std::endl;
-    std::cout << "\t" << "It has: "; 
-    player.getCurrentRoom()->printItems();
-    std::cout << std::endl;
-    std::cout << "\t" << "You can go: ";
-    player.getCurrentRoom()->printConnections(false);
-    std::cout << std::endl;
-    
+  Room* lastRoom;
+  bool firstRun = true;
+  while(playing){
     //Get input
+    lastRoom = player.getCurrentRoom();
     while(!parser.isValid(command)){
-      std::cout << "> ";
+      std::cout << std::endl << "> ";
       std::cin.get(command, 30);
       std::cin.clear();
       std::cin.ignore(100, '\n');
@@ -61,8 +51,16 @@ int main(){
         std::cout << "Invalid command. Try 'help'" << std::endl;
     }
     //Do something with that input
-    playing = parser.parseCommand(command);
+    playing = parser.parseCommand(command, &player);
     command[0] = '/';  //Change the first character of command so that parser.isValid won't recognize it
-  }*/
+    if(lastRoom != player.getCurrentRoom() || firstRun){
+      std::cout << "Current Room: " << player.getCurrentRoom()->getName() << "\n" << "  " << player.getCurrentRoom()->getDescription() << std::endl;
+      std::cout << std::endl << "  Has: ";
+      player.getCurrentRoom()->printItems();
+      std::cout << std::endl << "  You can go: ";
+      player.getCurrentRoom()->printConnections(false);
+      firstRun = false;
+    }
+  }
   return 0;
 }
