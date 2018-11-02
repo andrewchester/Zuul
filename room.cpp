@@ -143,11 +143,21 @@ void Room::printConnections(bool printNames){
     }
 }
 bool Room::has(char* key){
-  if(this->exits[key] != 0)
-    return true;
+  std::map<const char*, Room*>::iterator it;
+  for(it = this->exits.begin(); it != this->exits.end(); ++it){
+	  if(strcmp(const_cast<char*>(it->first), key) == 0){
+		if(it->second != 0){
+			return true;
+		}
+	  }
+  }
   return false;
 }
 Room* Room::get(char* key){
-  if(has(key)) return this->exits[key];
-  else return this;
+  std::map<const char*, Room*>::iterator it;
+  for(it = this->exits.begin(); it != this->exits.end(); ++it){
+	if(strcmp(const_cast<char*>(it->first), key) == 0)
+		return it->second; 
+  }
+  return 0;
 }

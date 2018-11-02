@@ -92,3 +92,11 @@ bool Player::hasItem(Item* item){
             return true;
     return false;
 }
+
+Item* Player::getItem(const char* item){
+	std::vector<Item*>::iterator it;
+    for(it = this->items.begin(); it != this->items.end(); ++it) //Iterating over items
+        if(strcmp((*it)->getName(), item) == 0) //If it contains the item, delete it
+           return *it;
+    return 0;
+}

@@ -5,24 +5,22 @@
 #include "player.h"
 
 char* Parser::substr(char* str, int begin, int end){
-	if (begin > end || begin < 0 || end >= strlen(str))
-		return str;
+  if (begin > end || begin < 0 || end >= strlen(str))
+	return str;
 
   char* substr = new char[end - begin + 1];
   for(int i = 0; i < sizeof(substr); i++)
     substr[i] = 0;
 
-	for (int i = begin; i <= end; i++)
+  for (int i = begin; i <= end; i++)
     substr[i - begin] = str[i];
 
-	return substr;
+  return substr;
 }
 
-void Parser::toLower(char* str)
-{
+void Parser::toLower(char* str){
   //Loops over str
-  for(int i = 0; i < strlen(str); i++)
-  {
+  for(int i = 0; i < strlen(str); i++){
     int asciiValue = (int)str[i]; //Get the ascii value of the character
     if(asciiValue >= 65 && asciiValue <= 90) //If it's uppercase
       str[i] = (char)(asciiValue + 32); //Make it lowercase by increasing the ascii value by 32
@@ -41,21 +39,22 @@ bool Parser::isValid(char* input){
 }
 bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "go ", 3) == 0){
-      char* direction;
-      strcpy(direction, command);
-      direction = substr(direction, 3, strlen(command) - 1);	
-
-	    std::cout << "Direction: " << direction << std::endl;
-	  
+      char* direction = substr(command, 3, strlen(command) - 1);	
       if(player->getCurrentRoom()->has(direction))
-		    player->setCurrentRoom(player->getCurrentRoom()->get(direction));
+		 player->setCurrentRoom(player->getCurrentRoom()->get(direction));
       else
-		    std::cout << "Not a valid direction" << std::endl << std::endl;
-
-      delete direction;
+		std::cout << "Not a valid direction" << std::endl;
+      
+	  delete direction;
       return true;
     }
     if(strncmp(command, "drop ", 5) == 0){
+		char* item = substr(command, 5, strlen(command) - 1);
+		std::vector<char*>::iterator it;
+		if(player->hasItem(item)){
+			player-getCurrentRoom()->addItem(player->getItem(item));
+		}
+		
         return true;
     }
     if(strncmp(command, "pickup ", 7) == 0){
@@ -148,7 +147,7 @@ void Parser::parseFromFile(std::vector<Room*>* rooms, const char* path){
     In this example, the room 'examplename' would only be connected to testroom to the south.
 */
 void Parser::parseConnectionsFromFile(std::vector<Room*>* rooms, const char* path){
-std::ifstream file(path); //Initializing file from the path variable passed in
+  std::ifstream file(path); //Initializing file from the path variable passed in
   char c; //This holds the current character, when iterating over the file, it goes character by characetr(the other method that went line by line used std::string, which we're not allowed to use) 
   std::vector<char*> values; //This holds the spliced strings, which are the ones in between the commas
   char current[100];//This holds the current string, it will gradually fill up with characters until it reaches a comma
@@ -173,48 +172,48 @@ std::ifstream file(path); //Initializing file from the path variable passed in
         std::vector<Room*>::iterator it;
         for(it = rooms->begin(); it != rooms->end(); ++it){
           if(strcmp((*it)->getName(), values.at(0)) == 0){
-            currentRoom->getExits()->insert(std::pair<const char*, Room*>("NORTH", *it));
+            currentRoom->getExits()->insert(std::pair<const char*, Room*>("north", *it));
             break;
           }
         }
       }else {
-        currentRoom->getExits()->insert(std::pair<const char*, Room*>("NORTH", 0));        
+        currentRoom->getExits()->insert(std::pair<const char*, Room*>("north", 0));        
       }
       
       if(*values.at(1) != '0'){  //EAST
         std::vector<Room*>::iterator it;
         for(it = rooms->begin(); it != rooms->end(); ++it){
           if(strcmp((*it)->getName(), values.at(1)) == 0){
-            currentRoom->getExits()->insert(std::pair<const char*, Room*>("EAST", *it));
+            currentRoom->getExits()->insert(std::pair<const char*, Room*>("east", *it));
             break;
           }
         }
       }else {
-        currentRoom->getExits()->insert(std::pair<const char*, Room*>("EAST", 0));        
+        currentRoom->getExits()->insert(std::pair<const char*, Room*>("east", 0));        
       }
 
       if(*values.at(2) != '0'){  //SOUTH
         std::vector<Room*>::iterator it;
         for(it = rooms->begin(); it != rooms->end(); ++it){
           if(strcmp((*it)->getName(), values.at(2)) == 0){
-            currentRoom->getExits()->insert(std::pair<const char*, Room*>("SOUTH", *it));
+            currentRoom->getExits()->insert(std::pair<const char*, Room*>("south", *it));
             break;
           }
         }
       }else {
-        currentRoom->getExits()->insert(std::pair<const char*, Room*>("SOUTH", 0));        
+        currentRoom->getExits()->insert(std::pair<const char*, Room*>("south", 0));        
       }
 
       if(*values.at(3) != '0'){  //WEST
         std::vector<Room*>::iterator it;
         for(it = rooms->begin(); it != rooms->end(); ++it){
           if(strcmp((*it)->getName(), values.at(3)) == 0){
-            currentRoom->getExits()->insert(std::pair<const char*, Room*>("WEST", *it));
+            currentRoom->getExits()->insert(std::pair<const char*, Room*>("west", *it));
             break;
           }
         }
       }else {
-        currentRoom->getExits()->insert(std::pair<const char*, Room*>("WEST", 0));        
+        currentRoom->getExits()->insert(std::pair<const char*, Room*>("west", 0));        
       }
 
       for (std::vector<char*>::iterator it = values.begin(); it != values.end(); ++it) delete *it; //Delete all the copied pointers from before

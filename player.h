@@ -41,5 +41,9 @@ class Player{
         bool hasItem(const char* item);
         bool hasItem(char* item);
         bool hasItem(Item* item);
+		
+		Item* getItem(const char* item);
+		Item* getItem(char* item);
+		Item* getItem(Item* item);
 };
 #endif
