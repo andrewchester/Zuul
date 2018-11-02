@@ -59,6 +59,29 @@ int main(){
       player.getCurrentRoom()->printItems();
       std::cout << std::endl << "  You can go: ";
       player.getCurrentRoom()->printConnections(false);
+      std::cout << std::endl << std::endl; 
+
+      const char* key = "NORTH";
+      std::map<const char*, Room*> exits = *player.getCurrentRoom()->getExits();
+      std::map<const char*, Room*>::iterator it;
+      for(it = exits.begin(); it != exits.end(); ++it){
+        std::cout << it->first << ": ";
+        if(it->second != 0)
+          std::cout << it->second->getName();
+        else
+          std::cout << 0;
+        std::cout << std::endl;
+        if(strcmp(key, it->first) == 0)
+          std::cout << "Key matches: " << it->first << std::endl;
+      }
+      std::cout << std::endl;
+      
+      if ( exits.find(key) == exits.end() ) {
+        std::cout << "Has " << key << std::endl;
+        std::cout << key << " is: " << exits[key] << std::endl;
+      } else {
+        std::cout << "Doesn't have " << key << std::endl;
+      }
       firstRun = false;
     }
   }

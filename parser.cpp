@@ -4,16 +4,18 @@
 #include "parser.h"
 #include "player.h"
 
-void Parser::substr(char* str, int begin, int end){
-	char* substr = new char[end - begin];
+char* Parser::substr(char* str, int begin, int end){
 	if (begin > end || begin < 0 || end >= strlen(str))
-		return;
-	int subpos = 0;
-	for (int i = begin; i < end; i++){
-		substr[subpos] = str[i];
-		subpos++;
-	}
-	str = substr;
+		return str;
+
+  char* substr = new char[end - begin + 1];
+  for(int i = 0; i < sizeof(substr); i++)
+    substr[i] = 0;
+
+	for (int i = begin; i <= end; i++)
+    substr[i - begin] = str[i];
+
+	return substr;
 }
 
 void Parser::toLower(char* str)
@@ -41,14 +43,16 @@ bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "go ", 3) == 0){
       char* direction;
       strcpy(direction, command);
-      substr(direction, 4, strlen(command));	
+      direction = substr(direction, 3, strlen(command) - 1);	
 
-	  std::cout << "Going: " << direction << std::endl;
+	    std::cout << "Direction: " << direction << std::endl;
 	  
       if(player->getCurrentRoom()->has(direction))
-		player->setCurrentRoom(player->getCurrentRoom()->get(direction));
+		    player->setCurrentRoom(player->getCurrentRoom()->get(direction));
       else
-		std::cout << "Not a valid direction" << std::endl;
+		    std::cout << "Not a valid direction" << std::endl << std::endl;
+
+      delete direction;
       return true;
     }
     if(strncmp(command, "drop ", 5) == 0){
