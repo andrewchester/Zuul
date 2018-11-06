@@ -100,3 +100,25 @@ Item* Player::getItem(const char* item){
            return *it;
     return 0;
 }
+Item* Player::getItem(char* item){
+    std::vector<Item*>::iterator it;
+    for(it = this->items.begin(); it != this->items.end(); ++it) //Iterating over items
+        if(strcmp((*it)->getName(), item) == 0) //If it contains the item, delete it
+            return *it;
+    return 0;
+}
+Item* Player::getItem(Item* item){
+    std::vector<Item*>::iterator it;
+    for(it = this->items.begin(); it != this->items.end(); ++it) //Iterating over items
+        if(*it == item) //If it contains the item, delete it
+            return *it;
+    return 0;
+}
+
+void Player::printItems(){
+	std::cout << "You're holding: ";
+	std::vector<Item*>::iterator it;
+	for(it = items.begin(); it != items.end(); ++it)
+		std::cout << *it->getName() << " ";
+	std::cout << std::endl;
+}

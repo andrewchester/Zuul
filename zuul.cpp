@@ -28,7 +28,7 @@ int main(){
   std::vector<Room*> rooms;
   
   Parser parser;
-  Player player;
+  Player player = Player();
   
   char command[30] = "help";
   bool playing = true;

@@ -45,5 +45,7 @@ class Player{
 		Item* getItem(const char* item);
 		Item* getItem(char* item);
 		Item* getItem(Item* item);
+		
+		void printItems();
 };
 #endif

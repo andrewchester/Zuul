@@ -52,13 +52,24 @@ bool Parser::parseCommand(char* command, Player* player){
 		char* item = substr(command, 5, strlen(command) - 1);
 		std::vector<char*>::iterator it;
 		if(player->hasItem(item)){
-			player-getCurrentRoom()->addItem(player->getItem(item));
+			player->getCurrentRoom()->addItem(player->getItem(item));
 		}
 		
         return true;
     }
     if(strncmp(command, "pickup ", 7) == 0){
-        return true;
+        char* item = substr(command, 7, strlen(command) - 1);
+		std::cout << item << std::endl;
+		if(player->getCurrentRoom()->hasItem(item)){
+			player->addItem(item);
+			player->getCurrentRoom()->removeItem(item);
+			
+			std::cout << "Picked up " << item << std::endl;
+			player->printItems();
+			return true;
+		}
+		std::cout << player->getCurrentRoom()->getName() << " doesn't have " << item << std::endl;
+		return true;
     }
 
     if(strncmp(command, "help", 4) == 0)
