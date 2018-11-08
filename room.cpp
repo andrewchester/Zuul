@@ -87,15 +87,18 @@ void Room::removeItem(const char* item){
         if(strcmp((*it)->getName(), item) == 0){ //If it contains the item, delete it
             delete *it;
             it = this->items.erase(it);
+			it--;//This is brendans idea
         }
 }
 void Room::removeItem(char* item){
     std::vector<Item*>::iterator it;
-    for(it = this->items.begin(); it != this->items.end(); ++it) //Iterating over items
-        if(strcmp((*it)->getName(), item) == 0){ //If it contains the item, delete it
+    for(it = this->items.begin(); it != this->items.end(); ++it){ //Iterating over items
+		if(strcmp((*it)->getName(), item) == 0){ //If it contains the item, delete it
             delete *it;
-            it = this->items.erase(it);
+            it = this->items.erase(it); 
+			it--;//This is brendans idea
         }
+	}
 }
 void Room::removeItem(Item* item){
     std::vector<Item*>::iterator it;
@@ -103,6 +106,7 @@ void Room::removeItem(Item* item){
         if(*it == item){ //If it contains the item, delete it
             delete *it;
             it = this->items.erase(it);
+			it--;//This is brendans idea
         }
 }
 

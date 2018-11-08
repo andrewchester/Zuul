@@ -20,6 +20,9 @@ Room* Player::getCurrentRoom(){
 int Player::getItemLimit(){
     return this->itemLimit;
 }
+int Player::numItems(){
+	return this->items.size();
+}
 
 //Setters
 void Player::setCurrentRoom(Room* room){
@@ -51,6 +54,7 @@ void Player::removeItem(const char* item){
         if(strcmp((*it)->getName(), item) == 0){ //If it contains the item, delete it
             delete *it;
             it = this->items.erase(it);
+			it--;
         }
 }
 void Player::removeItem(char* item){
@@ -59,7 +63,8 @@ void Player::removeItem(char* item){
         if(strcmp((*it)->getName(), item) == 0){ //If it contains the item, delete it
             delete *it;
             it = this->items.erase(it);
-        }
+			it--;
+		}
 }
 void Player::removeItem(Item* item){
     std::vector<Item*>::iterator it;
@@ -67,6 +72,7 @@ void Player::removeItem(Item* item){
         if(*it == item){ //If it contains the item, delete it
             delete *it;
             it = this->items.erase(it);
+			it--;
         }
 }
 
@@ -118,7 +124,8 @@ Item* Player::getItem(Item* item){
 void Player::printItems(){
 	std::cout << "You're holding: ";
 	std::vector<Item*>::iterator it;
-	for(it = items.begin(); it != items.end(); ++it)
-		std::cout << *it->getName() << " ";
+	for(it = items.begin(); it != items.end(); ++it){
+		std::cout << (*it)->getName() << " ";
+	}
 	std::cout << std::endl;
 }

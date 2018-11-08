@@ -59,13 +59,14 @@ bool Parser::parseCommand(char* command, Player* player){
     }
     if(strncmp(command, "pickup ", 7) == 0){
         char* item = substr(command, 7, strlen(command) - 1);
-		std::cout << item << std::endl;
 		if(player->getCurrentRoom()->hasItem(item)){
-			player->addItem(item);
-			player->getCurrentRoom()->removeItem(item);
-			
-			std::cout << "Picked up " << item << std::endl;
-			player->printItems();
+			if(player->numItems() >= player->getItemLimit()){
+				player->addItem(item);
+				player->getCurrentRoom()->removeItem(item);
+				player->printItems();
+				return true;
+			}
+			std::cout << "Too many items" << std::endl;
 			return true;
 		}
 		std::cout << player->getCurrentRoom()->getName() << " doesn't have " << item << std::endl;

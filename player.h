@@ -23,6 +23,7 @@ class Player{
         Room* getCurrentRoom();
         std::vector<Item*>* getItems();
         int getItemLimit();
+		int numItems();
 
         //Setters
         void setCurrentRoom(Room* current);
