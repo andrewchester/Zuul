@@ -4,20 +4,23 @@
 #include "parser.h"
 #include "player.h"
 
+
+//A function for getting substrings out of cstrings
 char* Parser::substr(char* str, int begin, int end){
-  if (begin > end || begin < 0 || end >= strlen(str))
+  if (begin > end || begin < 0 || end >= strlen(str)) //If its out of range of the array
 	return str;
 
-  char* substr = new char[end - begin + 1];
-  for(int i = 0; i < sizeof(substr); i++)
+  char* substr = new char[end - begin + 1]; //create the substring with the size of the difference between the last position and first
+  for(int i = 0; i < sizeof(substr); i++) //Fill it with zeros? There's a good reason for this but I forgot
     substr[i] = 0;
 
-  for (int i = begin; i <= end; i++)
+  for (int i = begin; i <= end; i++) //Loop over the section of the array and copy it to substr
     substr[i - begin] = str[i];
 
   return substr;
 }
 
+//Converts a character array to lowercase using ascii, copied and pasted from other projects
 void Parser::toLower(char* str){
   //Loops over str
   for(int i = 0; i < strlen(str); i++){
@@ -39,22 +42,39 @@ bool Parser::isValid(char* input){
 	if(!strncmp(input, "room info", 9)) return true;
     return false;
 }
+//Takes a valid command and does stuff with it
 bool Parser::parseCommand(char* command, Player* player){
-    if(strncmp(command, "go ", 3) == 0){
-      char* direction = substr(command, 3, strlen(command) - 1);	
-      if(player->getCurrentRoom()->has(direction))
-		 player->setCurrentRoom(player->getCurrentRoom()->get(direction));
-      else
+    if(strncmp(command, "go ", 3) == 0){ //If they're going somewhere
+      char* direction = substr(command, 3, strlen(command) - 1); //Get the rest of the string so from "go NORTH" to "NORTH"
+      if(player->getCurrentRoom()->has(direction)){ //If the current room has a direction
+		Room* nextRoom = player->getCurrentRoom()->get(direction);
+		if(strcmp(nextRoom->getName(), "secretexit") == 0){ //If they're in secret exit
+			if(player->hasItem("key")){ //and they have the key, exit the game
+				std::cout << "You've found a way out!" << std::endl;
+			}else{ //but don't have the key, give them a hint and move back
+				std::cout << "The door is locked, you'll need a key... " << std::endl;
+				delete direction;
+				return true;
+			}
+		}
+		//Only runs if they have the key
+		delete direction;
+		player->setCurrentRoom(nextRoom); //Change the player's current room pointer to where the player wants to go
+		if(strcmp(player->getCurrentRoom()->getName(), "secretexit") == 0) //If they've got the key and they're in the right room, exit the game
+			return false;
+		return true;
+	  }else{
 		std::cout << "Not a valid direction" << std::endl;
-      
+      }
 	  delete direction;
       return true;
     }
+	//When the player drops an item
     if(strncmp(command, "drop ", 5) == 0){
-		char* item = substr(command, 5, strlen(command) - 1);
-		std::vector<char*>::iterator it;
-		if(player->hasItem(item)){
+		char* item = substr(command, 5, strlen(command) - 1); //Get the item they want
+		if(player->hasItem(item)){ //If the player has the item add it to the room and remove it from the player
 			player->getCurrentRoom()->addItem(player->getItem(item));
+			player->removeItem(item);
 		}
 		
         return true;
@@ -66,7 +86,6 @@ bool Parser::parseCommand(char* command, Player* player){
 				player->addItem(item);
 				player->getCurrentRoom()->removeItem(item);
 				player->printItems();
-				std::cout << player->numItems() << " " << player->itemLimit << std::endl;
 				return true;
 			}
 			std::cout << "Too many items" << std::endl;
