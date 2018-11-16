@@ -13,16 +13,16 @@ class Player{
     private:
         Room* current;
         std::vector<Item*> items;
-        int itemLimit;
     
     public:
         Player();
         Player(Room* current);
         
+		const int itemLimit = 3;
+		
         //Getters
         Room* getCurrentRoom();
         std::vector<Item*>* getItems();
-        int getItemLimit();
 		int numItems();
 
         //Setters

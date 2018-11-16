@@ -40,7 +40,6 @@ int main(){
   Room* lastRoom;
   bool firstRun = true;
   while(playing){
-    //Get input
     lastRoom = player.getCurrentRoom();
     while(!parser.isValid(command)){
       std::cout << std::endl << "> ";
@@ -52,7 +51,6 @@ int main(){
     }
     //Do something with that input
     playing = parser.parseCommand(command, &player);
-    command[0] = '/';  //Change the first character of command so that parser.isValid won't recognize it
     if(lastRoom != player.getCurrentRoom() || firstRun){
       std::cout << "Current Room: " << player.getCurrentRoom()->getName() << "\n" << "  " << player.getCurrentRoom()->getDescription() << std::endl;
       std::cout << std::endl << "  Has: ";
@@ -61,6 +59,7 @@ int main(){
       player.getCurrentRoom()->printConnections(false);
       firstRun = false;
     }
+	for (int i = 0; i < strlen(command); i++) command[i] = 0;
   }
   return 0;
 }

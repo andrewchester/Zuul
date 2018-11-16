@@ -30,11 +30,13 @@ void Parser::toLower(char* str){
 //Return true or false based on if input is a valid command
 bool Parser::isValid(char* input){
     this->toLower(input);
-    if(strncmp(input, "go ", 3) == 0) return true;
-    if(strncmp(input, "drop ", 5) == 0) return true;
-    if(strncmp(input, "help", 4) == 0) return true;
-    if(strncmp(input, "quit", 4) == 0) return true;
-    if(strncmp(input, "pickup ", 7) == 0) return true;
+    if(!strncmp(input, "go ", 3)) return true;
+    if(!strncmp(input, "drop ", 5)) return true;
+    if(!strncmp(input, "help", 4)) return true;
+    if(!strncmp(input, "quit", 4)) return true;
+    if(!strncmp(input, "pickup ", 7)) return true;
+	if(!strncmp(input, "items", 5)) return true;
+	if(!strncmp(input, "room info", 9)) return true;
     return false;
 }
 bool Parser::parseCommand(char* command, Player* player){
@@ -60,10 +62,11 @@ bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "pickup ", 7) == 0){
         char* item = substr(command, 7, strlen(command) - 1);
 		if(player->getCurrentRoom()->hasItem(item)){
-			if(player->numItems() >= player->getItemLimit()){
+			if(player->numItems() <= player->itemLimit){
 				player->addItem(item);
 				player->getCurrentRoom()->removeItem(item);
 				player->printItems();
+				std::cout << player->numItems() << " " << player->itemLimit << std::endl;
 				return true;
 			}
 			std::cout << "Too many items" << std::endl;
@@ -72,9 +75,21 @@ bool Parser::parseCommand(char* command, Player* player){
 		std::cout << player->getCurrentRoom()->getName() << " doesn't have " << item << std::endl;
 		return true;
     }
+	
+	if(strncmp(command, "items", 5) == 0){
+		std::cout << std::endl;
+		player->printItems();
+	}
+	
+	if(strncmp(command, "room info", 9) == 0){
+		std::cout << std::endl << "  Has: ";
+		player->getCurrentRoom()->printItems();
+		std::cout << std::endl << "  You can go: ";
+		player->getCurrentRoom()->printConnections(false);
+	}
 
     if(strncmp(command, "help", 4) == 0)
-        std::cout << "Commands are: go, drop, pickup,  help, and quit" << std::endl;
+        std::cout << "Commands are: go, drop, pickup,items, room info, help, and quit" << std::endl;
     if(strncmp(command, "quit", 4) == 0)
         return false;
     return true;

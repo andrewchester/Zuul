@@ -17,9 +17,6 @@ Player::Player(Room* room = 0){
 Room* Player::getCurrentRoom(){
     return this->current;
 }
-int Player::getItemLimit(){
-    return this->itemLimit;
-}
 int Player::numItems(){
 	return this->items.size();
 }
@@ -27,9 +24,6 @@ int Player::numItems(){
 //Setters
 void Player::setCurrentRoom(Room* room){
     this->current = room;
-}
-void Player::setItemLimit(int itemLimit){
-    this->itemLimit = itemLimit;
 }
 
 //Functions for managing items
