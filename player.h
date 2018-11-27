@@ -13,12 +13,11 @@ class Player{
     private:
         Room* current;
         std::vector<Item*> items;
-    
+		int itemLimit;
+	
     public:
         Player();
         Player(Room* current);
-        
-		const int itemLimit = 3;
 		
         //Getters
         Room* getCurrentRoom();
@@ -46,6 +45,8 @@ class Player{
 		Item* getItem(const char* item);
 		Item* getItem(char* item);
 		Item* getItem(Item* item);
+		
+		int getItemLimit();
 		
 		void printItems();
 };

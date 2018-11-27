@@ -8,9 +8,11 @@
 //Constructor with a default null value for room
 Player::Player(){
     this->current = 0;
+	this->itemLimit = 3;
 }
 Player::Player(Room* room = 0){
     this->current = room;
+	this->itemLimit = 3;
 }
 
 //Getters
@@ -18,7 +20,7 @@ Room* Player::getCurrentRoom(){
     return this->current;
 }
 int Player::numItems(){
-	return this->items.size();
+	return this->items.size() + 1;
 }
 
 //Setters
@@ -113,6 +115,10 @@ Item* Player::getItem(Item* item){
         if(*it == item) //If it contains the item, delete it
             return *it;
     return 0;
+}
+
+int Player::getItemLimit(){
+	return this->itemLimit;
 }
 
 void Player::printItems(){

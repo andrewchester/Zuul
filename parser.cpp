@@ -82,7 +82,7 @@ bool Parser::parseCommand(char* command, Player* player){
     if(strncmp(command, "pickup ", 7) == 0){
         char* item = substr(command, 7, strlen(command) - 1);
 		if(player->getCurrentRoom()->hasItem(item)){
-			if(player->numItems() <= player->itemLimit){
+			if(player->numItems() <= player->getItemLimit()){
 				player->addItem(item);
 				player->getCurrentRoom()->removeItem(item);
 				player->printItems();
